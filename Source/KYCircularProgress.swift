@@ -144,6 +144,15 @@ public class KYCircularProgress: UIView {
         }
     }
     
+    /**
+    Set the gradient-direction to vertical. If 'false' it's the standard horizontal direction.
+     */
+    public var verticalGradient: Bool = false {
+        didSet {
+            configureProgressLayer()
+        }
+    }
+    
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         configureProgressLayer()
@@ -184,8 +193,13 @@ public class KYCircularProgress: UIView {
 
         gradientLayer = CAGradientLayer(layer: layer)
         gradientLayer.frame = progressView.frame
-        gradientLayer.startPoint = CGPointMake(0, 0.5)
-        gradientLayer.endPoint = CGPointMake(1, 0.5)
+        if verticalGradient{
+            gradientLayer.startPoint = CGPointMake(0.5, 0)
+            gradientLayer.endPoint = CGPointMake(0.5, 1)
+        }else{
+            gradientLayer.startPoint = CGPointMake(0, 0.5)
+            gradientLayer.endPoint = CGPointMake(1, 0.5)
+        }
         gradientLayer.mask = progressView.shapeLayer
         gradientLayer.colors = colors ?? [UIColor(rgba: 0x9ACDE755).CGColor, UIColor(rgba: 0xE7A5C955).CGColor]
         
